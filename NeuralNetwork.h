@@ -61,20 +61,23 @@ public:
 
     //обучение сети(в разработке)
     void learning(vector<ld> learn) {
-        //for (ull i = 0; i < learn.size() - levels.at(i)->neurons.size() + 1; i++) {
+        for (ull i = 0; i < learn.size() - levels.at(0)->neurons.size() + 1; i++) {
 
             for (ull j = 0; j < levels.at(0)->neurons.size(); j++) {
-                levels.at(0)->neurons.at(j)->x = learn.at(j);
+                levels.at(0)->neurons.at(j)->x = learn.at(i + j);
             }
 
             for (const auto &j : w) {
                 j->x_to_y();
             }
 
-        //}
-        for (ull i = 0; i < levels.size(); i++) {
+            show();
+            cout << endl;
 
         }
+        /*for (ull i = 0; i < levels.size(); i++) {
+
+        }*/
     }
 
     //демонстрация весов

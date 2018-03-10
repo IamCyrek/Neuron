@@ -15,9 +15,9 @@ int main() {
           {make_pair(LEVEL_3, defaulFunction)}
                           }, 0.1, 0.1);
 
-    network.learning({1, 2, 3, 4, 5, 5, 4, 3, 2, 1});
+    network.learning({1, 2, 3, 4, 5, 5, 4, 3, 2, 1, 10, 11});
 
-    network.show();
+    //network.show();
 
     return 0;
 }
