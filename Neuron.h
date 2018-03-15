@@ -16,7 +16,7 @@ class Neuron {
 
 public:
 
-    Neuron() : x(0) {}
+    Neuron() : x(randomCplusplus11()) {}
 
 };
 

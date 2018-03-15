@@ -3,6 +3,9 @@
 //здесь функции для уровней
 
 
+#include <math.h>
+
+typedef long long ll;
 typedef unsigned long long ull;
 typedef long double ld;
 
@@ -15,9 +18,23 @@ ld randomCplusplus11 (const double mi = 0.0, const double ma = 1.0) {
     return dis(gen);
 }
 
-long double defaulFunction(const ld sum) {
+ld linearFunction(const ld sum) {
     return sum;
 }
+
+ld derivativeLinearFunction(const ld y) {
+    return 1;
+}
+
+ld sygmoidFunction(const ld sum) {
+    return 1. / (1. + exp(-sum));
+}
+
+ld derivativeSygmoidFunction(const ld y) {
+    return y * (1 - y);
+}
+
+//ld (*const DEFAULT_FUNCTION)(const ld)  = linearFunction;
 
 
 #endif //NEURONS_FUNCTIONS_H

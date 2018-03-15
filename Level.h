@@ -15,17 +15,14 @@ class Level {
     //нейроны уровня
     vector<Neuron*> neurons;
 
-    //функция уровня
-    ld (*function)(const ld sum);
+    vector<ld> gamma;
 
 public:
 
     Level() = delete;
 
     // конструктор с числом нейронов на уровне и функцией для уровня
-    explicit Level(const ull &numberOfNeurons,
-          ld (*function)(const ld) = defaulFunction)
-            : function(function) {
+    explicit Level(const ull &numberOfNeurons) {
 
         for (ull i = 0; i < numberOfNeurons; i++) {
             neurons.push_back(new Neuron());

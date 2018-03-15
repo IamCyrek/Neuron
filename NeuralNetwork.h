@@ -4,8 +4,8 @@
 
 #include <vector>
 #include <iomanip>
-#include "Level.h"
 #include "Connection.h"
+#include "ParametersForLevel.h"
 
 using std::vector;
 using std::cin;
@@ -19,7 +19,7 @@ class NeuralNetwork {
     vector<Level*> levels;
 
     //вектор весов между уровнями
-    vector<Connection*> w;
+    vector<Connection*> connection;
 
     //шаг обучения
     ld alpha;
@@ -32,8 +32,7 @@ public:
     NeuralNetwork() = delete;
 
     //конструктор, с вектором пары(количество нейронов слоя и функции слоя)
-    explicit NeuralNetwork(const vector<std::pair<ull,
-            ld (*)(const ld sum)>> &NeuronsAndFunctions, ld alpha, ld Em)
+    explicit NeuralNetwork(const vector<ParametersForLevel> &NeuronsAndFunctions, ld alpha, ld Em)
             : alpha(alpha), Em(Em) {
         bool check = false;
 
@@ -49,35 +48,48 @@ public:
         }*/
 
         for (const auto& i : NeuronsAndFunctions) {
-            levels.push_back(new Level(i.first, i.second));
+            levels.push_back(new Level(i.getNumberOfNeurons()));
         }
 
         for (ull i = 0; i < NeuronsAndFunctions.size() - 1; i++) {
-            w.push_back(new Connection(levels.at(i),
-                                       levels.at(i + 1)));
+            connection.push_back(new Connection(levels.at(i),
+                levels.at(i + 1), alpha, NeuronsAndFunctions.at(i + 1).getFunction(),
+                NeuronsAndFunctions.at(i + 1).getDerivativeFunction()));
         }
-
     }
 
     //обучение сети(в разработке)
     void learning(vector<ld> learn) {
-        for (ull i = 0; i < learn.size() - levels.at(0)->neurons.size() + 1; i++) {
+        ull time = 0;
+        ld E = 0.;
 
-            for (ull j = 0; j < levels.at(0)->neurons.size(); j++) {
-                levels.at(0)->neurons.at(j)->x = learn.at(i + j);
+        do {
+            for (ull i = 0; i < learn.size() - levels.at(0)->neurons.size() - levels.at(levels.size() - 1)->neurons.size() + 1; i++) {
+                for (ull j = 0; j < levels.at(0)->neurons.size(); j++) {
+                    levels.at(0)->neurons.at(j)->x = learn.at(i + j);
+                }
+
+                vector<ld> etalon;
+                for (ull j = 0; j < levels.at(levels.size() - 1)->neurons.size(); j++) {
+                    etalon.push_back(i + levels.at(0)->neurons.size() + j);
+                }
+                for (const auto &con : connection) {
+                    con->x_to_y();
+                }
+
+                connection.at(connection.size() - 1)->backpropogationForLast(etalon);
+                for (ll j = connection.size() - 2; j >= 0; j--) {
+                    connection.at(j)->
+                            backpropogationForHidden(
+                            connection.at(j + 1));
+                }
+
+
+
+                show();
+                cout << endl;
             }
-
-            for (const auto &j : w) {
-                j->x_to_y();
-            }
-
-            show();
-            cout << endl;
-
-        }
-        /*for (ull i = 0; i < levels.size(); i++) {
-
-        }*/
+        } while (E > Em && ++time < 1);
     }
 
     //демонстрация весов
@@ -86,7 +98,7 @@ public:
             i->get();
         }
 //        std::cout << "///////////////////////////" << std::endl;
-//        for (const auto &i : w) {
+//        for (const auto &i : connection) {
 //            i->show();
 //            std::cout << "///////////////////////////" << std::endl;
 //        }

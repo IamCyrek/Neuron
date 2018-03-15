@@ -23,18 +23,48 @@ class Connection {
     vector<ld> T;
 
     //предыдущий уровень
-    const Level* before;
+    Level* before;
 
     //следующий уровень
     Level* after;
+
+    //шаг обучения
+    ld alpha;
+
+    //функция уровня
+    ld (*function)(const ld sum);
+
+    //производная функции
+    ld (*derivativeFunction)(const ld sum);
+
+    vector<ld> gamma;
+
+    void changeWandT() {
+        for (ull i = 0; i < before->neurons.size(); i++) {
+            for (ull j = 0; j < after->neurons.size(); j++) {
+                w.at(i).at(j) -= alpha
+                                 * before->gamma.at(j)
+                                 * derivativeFunction(after->neurons.at(j)->x)
+                                 * before->neurons.at(i)->x;
+            }
+        }
+
+        for (ull i = 0; i < after->neurons.size(); i++) {
+            T.at(i) += alpha * before->gamma.at(i)
+                       * derivativeFunction(after->neurons.at(i)->x);
+        }
+    }
 
 public:
 
     Connection () = delete;
 
     //конструктор, рандомно задающий веса между двумя уровнями
-    Connection (const Level* before, Level* after)
-            : before(before), after(after) {
+    Connection (Level* before, Level* after, ld alpha,
+                ld (*function)(const ld) = linearFunction,
+                ld (*derivativeFunction)(const ld) = derivativeLinearFunction)
+            : before(before), after(after),  alpha(alpha),
+              function(function), derivativeFunction(derivativeFunction){
         for (ull j = 0; j < before->neurons.size(); j++) {
             vector<ld> vec1;
 
@@ -59,7 +89,30 @@ public:
 
         for (ull i = 0; i < after->neurons.size(); i++) {
             after->neurons.at(i)->x -= T.at(i);
+            after->neurons.at(i)->x = function(after->neurons.at(i)->x);
         }
+    }
+
+    void backpropogationForLast(const vector<ld> &etalon) {
+        for (ull i = 0; i < after->neurons.size(); i++) {
+            before->gamma.push_back(after->neurons.at(i)->x - etalon.at(i));
+        }
+
+        changeWandT();
+    }
+
+    void backpropogationForHidden(const Connection *nextConnection) {
+        for (ull i = 0; i < before->neurons.size(); i++) {
+            ld sum = 0;
+            for (ull j = 0; j < after->neurons.size(); j++) {
+                sum += after->gamma.at(j)
+                       * derivativeFunction(after->neurons.at(j)->x)
+                       * w.at(i).at(j);
+            }
+            before->gamma.push_back(sum);
+        }
+
+        changeWandT();
     }
 
     //показывает веса
