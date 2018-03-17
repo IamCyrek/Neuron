@@ -18,6 +18,10 @@ ld randomCplusplus11 (const double mi = 0.0, const double ma = 1.0) {
     return dis(gen);
 }
 
+ld function(const ld x) {
+    return sin(x);
+}
+
 ld linearFunction(const ld sum) {
     return sum;
 }

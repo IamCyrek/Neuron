@@ -60,13 +60,20 @@ public:
 
     //обучение сети(в разработке)
     void learning(vector<ld> learn) {
+        if (learn.size() < levels.at(0)->neurons.size()) {
+            throw 1;
+        }
         ull time = 0;
+
         ld E = 0.;
 
         do {
+            E = 0.;
+
             for (ull i = 0; i < learn.size() - levels.at(0)->neurons.size() - levels.at(levels.size() - 1)->neurons.size() + 1; i++) {
                 for (ull j = 0; j < levels.at(0)->neurons.size(); j++) {
-                    levels.at(0)->neurons.at(j)->x = learn.at(i + j);
+                    levels.at(0)->neurons.at(j)->x =
+                            learn.at(i + j);
                 }
 
                 vector<ld> etalon;
@@ -77,19 +84,23 @@ public:
                     con->x_to_y();
                 }
 
-                connection.at(connection.size() - 1)->backpropogationForLast(etalon);
+                E += connection.at(connection.size() - 1)->backpropogationForLast(etalon);
                 for (ll j = connection.size() - 2; j >= 0; j--) {
                     connection.at(j)->
                             backpropogationForHidden(
                             connection.at(j + 1));
                 }
 
+                for (ll j = connection.size() - 1; j >= 0; j--) {
+                    connection.at(j)->changeWAndT();
+                }
 
-
-                show();
-                cout << endl;
+                //show();
+                //cout << endl;
             }
-        } while (E > Em && ++time < 1);
+            std::cout << E / 2.0 << ' ' << Em << std::endl;
+        } while (E / 2.0 > Em && ++time < 1000);
+        std::cout << "////////////////////////////////// " << time << std::endl;
     }
 
     //демонстрация весов
