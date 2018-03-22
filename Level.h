@@ -15,8 +15,6 @@ class Level {
     //нейроны уровня
     vector<Neuron*> neurons;
 
-    vector<ld> gamma;
-
 public:
 
     Level() = delete;
@@ -32,11 +30,11 @@ public:
 
 //////////////////////////////////////////////////////////////////////
     //никто не знает для чего она
-    void set() {
-        /*for (unsigned long long i = 0; i < neurons.size(); i++) {
+    /*void set() {
+        for (unsigned long long i = 0; i < neurons.size(); i++) {
             neurons.at(i)->x_sum_y = i + 1;
-        }*/
-    }
+        }
+    }*/
 
     //вывод на экран суммы произведений весов на входные сигналы нейронов
     void get() const {

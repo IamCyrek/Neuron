@@ -28,6 +28,8 @@ class Connection {
     //следующий уровень
     Level* after;
 
+    vector<ld> gamma;
+
     //шаг обучения
     ld alpha;
 
@@ -36,8 +38,6 @@ class Connection {
 
     //производная функции
     ld (*derivativeFunction)(const ld sum);
-
-    vector<ld> gamma;
 
 public:
 
@@ -58,6 +58,8 @@ public:
 
             w.push_back(vec1);
         }
+
+        gamma.resize(after->neurons.size());
 
         for (ull k = 0; k < after->neurons.size(); k++) {
             T.push_back(randomCplusplus11());
@@ -80,22 +82,24 @@ public:
     ld backpropogationForLast(const vector<ld> &etalon) {
         ld sum = 0;
         for (ull i = 0; i < after->neurons.size(); i++) {
-            before->gamma.push_back(after->neurons.at(i)->x - etalon.at(i));
+            gamma.at(i) = after->neurons.at(i)->x - etalon.at(i);
             sum += pow(after->neurons.at(i)->x - etalon.at(i), 2);
         }
+        ld xx = after->neurons.at(0)->x;
+
 
         return sum;
     }
 
     void backpropogationForHidden(const Connection *nextConnection) {
-        for (ull i = 0; i < before->neurons.size(); i++) {
+        for (ull i = 0; i < nextConnection->before->neurons.size(); i++) {
             ld sum = 0;
             for (ull j = 0; j < nextConnection->after->neurons.size(); j++) {
-                sum += after->gamma.at(j)
+                sum += nextConnection->gamma.at(j)
                        * derivativeFunction(nextConnection->after->neurons.at(j)->x)
-                       * w.at(i).at(j);
+                       * nextConnection->w.at(i).at(j);
             }
-            before->gamma.push_back(sum);
+            gamma.at(i) = sum;
         }
     }
 
@@ -103,14 +107,14 @@ public:
         for (ull i = 0; i < before->neurons.size(); i++) {
             for (ull j = 0; j < after->neurons.size(); j++) {
                 w.at(i).at(j) -= alpha
-                                 * before->gamma.at(j)
+                                 * gamma.at(j)
                                  * derivativeFunction(after->neurons.at(j)->x)
                                  * before->neurons.at(i)->x;
             }
         }
 
         for (ull i = 0; i < after->neurons.size(); i++) {
-            T.at(i) += alpha * before->gamma.at(i)
+            T.at(i) += alpha * gamma.at(i)
                        * derivativeFunction(after->neurons.at(i)->x);
         }
     }

@@ -3,23 +3,25 @@
 //здесь функции для уровней
 
 
-#include <math.h>
+#include <cmath>
+#include <cstdlib>
 
 typedef long long ll;
 typedef unsigned long long ull;
 typedef long double ld;
 
 //функция для получения рандомных чисел, внутри происходит какая-то магия
-ld randomCplusplus11 (const double mi = 0.0, const double ma = 1.0) {
-    std::random_device rd;
+ld randomCplusplus11 (const double mi = -0.5, const double ma = 1.5) {
+    return ld(rand() * (ma - mi) / RAND_MAX + mi);
+    /*std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(mi, ma);
 
-    return dis(gen);
+    return dis(gen);*/
 }
 
 ld function(const ld x) {
-    return sin(x);
+    return 0.3 * cos(0.3 * x) + 0.7 * sin(0.3 * x);
 }
 
 ld linearFunction(const ld sum) {

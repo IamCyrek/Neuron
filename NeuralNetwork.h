@@ -78,11 +78,13 @@ public:
 
                 vector<ld> etalon;
                 for (ull j = 0; j < levels.at(levels.size() - 1)->neurons.size(); j++) {
-                    etalon.push_back(i + levels.at(0)->neurons.size() + j);
+                    etalon.push_back(learn.at(i + levels.at(0)->neurons.size() + j));
                 }
                 for (const auto &con : connection) {
                     con->x_to_y();
                 }
+
+
 
                 E += connection.at(connection.size() - 1)->backpropogationForLast(etalon);
                 for (ll j = connection.size() - 2; j >= 0; j--) {
@@ -95,11 +97,19 @@ public:
                     connection.at(j)->changeWAndT();
                 }
 
+                std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
+                //if (levels.at(levels.size() - 1)->neurons.size() < etalon.size()) {
+                    //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
+                //std::cout << etalon.at(0);
+                //}
+                //std::cout << std::endl;
+
                 //show();
                 //cout << endl;
             }
-            std::cout << E / 2.0 << ' ' << Em << std::endl;
-        } while (E / 2.0 > Em && ++time < 1000);
+            E/=2.0;
+            //std::cout << E << ' ' << Em << std::endl;
+        } while (E > Em && ++time < 1000);
         std::cout << "////////////////////////////////// " << time << std::endl;
     }
 
