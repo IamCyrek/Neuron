@@ -1,29 +1,29 @@
-#ifndef NEURONS_PARAMETERSFORLEVEL_H
+п»ї#ifndef NEURONS_PARAMETERSFORLEVEL_H
 #define NEURONS_PARAMETERSFORLEVEL_H
 
 
 #include "Functions.h"
 
-//определение типа "указатель на функцию" для передачи функции и ее производной
+//РѕРїСЂРµРґРµР»РµРЅРёРµ С‚РёРїР° "СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёСЋ" РґР»СЏ РїРµСЂРµРґР°С‡Рё С„СѓРЅРєС†РёРё Рё РµРµ РїСЂРѕРёР·РІРѕРґРЅРѕР№
 typedef ld (*funct)(const ld);
 typedef ld (*derivFunct)(const ld);
 
-// класс "Параметры для уровня"
+// РєР»Р°СЃСЃ "РџР°СЂР°РјРµС‚СЂС‹ РґР»СЏ СѓСЂРѕРІРЅСЏ"
 class ParametersForLevel {
 
-	//число нейронов уровня
+	//С‡РёСЃР»Рѕ РЅРµР№СЂРѕРЅРѕРІ СѓСЂРѕРІРЅСЏ
     unsigned long long numberOfNeurons;
 
-	//функция соединения двух слоев
+	//С„СѓРЅРєС†РёСЏ СЃРѕРµРґРёРЅРµРЅРёСЏ РґРІСѓС… СЃР»РѕРµРІ
     ld (*function)(const ld);
 
-	//производная функции соединения двух слоев
+	//РїСЂРѕРёР·РІРѕРґРЅР°СЏ С„СѓРЅРєС†РёРё СЃРѕРµРґРёРЅРµРЅРёСЏ РґРІСѓС… СЃР»РѕРµРІ
     ld (*derivativeFunction)(const ld);
 
 public:
 
-	//конструктор с заданием значений
-	// для нейронной сети в качестве первой функции передается Null, т.к. функций на 1 меньше, чем уровней
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ Р·Р°РґР°РЅРёРµРј Р·РЅР°С‡РµРЅРёР№
+	// РґР»СЏ РЅРµР№СЂРѕРЅРЅРѕР№ СЃРµС‚Рё РІ РєР°С‡РµСЃС‚РІРµ РїРµСЂРІРѕР№ С„СѓРЅРєС†РёРё РїРµСЂРµРґР°РµС‚СЃСЏ Null, С‚.Рє. С„СѓРЅРєС†РёР№ РЅР° 1 РјРµРЅСЊС€Рµ, С‡РµРј СѓСЂРѕРІРЅРµР№
     ParametersForLevel(unsigned long long int numberOfNeurons,
                        ld (*function)(const ld),
                        ld (*derivativeFunction)(const ld))
@@ -31,7 +31,7 @@ public:
               function(function),
               derivativeFunction(derivativeFunction) {}
 
-	//геттеры
+	//РіРµС‚С‚РµСЂС‹
     unsigned long long getNumberOfNeurons() const {
         return numberOfNeurons;
     }
