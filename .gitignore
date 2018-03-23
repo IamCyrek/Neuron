@@ -35,3 +35,11 @@
 # IntellijIdea files
 *.iml
 .idea
+/ConsoleApplication1/ReadMe.txt
+/ConsoleApplication1/Debug
+/ConsoleApplication1/ConsoleApplication1.vcxproj.filters
+/ConsoleApplication1/ConsoleApplication1.vcxproj
+/ConsoleApplication1/ConsoleApplication1.VC.VC.opendb
+/ConsoleApplication1/ConsoleApplication1.VC.db
+/ConsoleApplication1/ConsoleApplication1.sln
+/ConsoleApplication1/.vs/ConsoleApplication1/v14

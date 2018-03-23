@@ -67,8 +67,9 @@ public:
     }
 
     void x_to_y() {
-        for (ull i = 0; i < before->neurons.size(); i++) {
-            for (ull j = 0; j < after->neurons.size(); j++) {
+        for (ull j = 0; j < after->neurons.size(); j++) {
+			after->neurons.at(j)->x = 0;
+            for (ull i = 0; i < before->neurons.size(); i++) {
                 after->neurons.at(j)->x += before->neurons.at(i)->x * w.at(i).at(j);
             }
         }

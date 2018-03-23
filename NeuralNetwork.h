@@ -97,7 +97,7 @@ public:
                     connection.at(j)->changeWAndT();
                 }
 
-                std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
+                //std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
                 //if (levels.at(levels.size() - 1)->neurons.size() < etalon.size()) {
                     //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
                 //std::cout << etalon.at(0);
@@ -108,7 +108,7 @@ public:
                 //cout << endl;
             }
             E/=2.0;
-            //std::cout << E << ' ' << Em << std::endl;
+            std::cout << E << ' ' << Em << std::endl;
         } while (E > Em && ++time < 1000);
         std::cout << "////////////////////////////////// " << time << std::endl;
     }

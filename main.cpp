@@ -20,11 +20,11 @@ int main() {
           {LEVEL_1, NULL_FUNCTION, NULL_DERIVATIVE_FUNCTION},
           {LEVEL_2, sygmoidFunction, derivativeSygmoidFunction},
           {LEVEL_3, linearFunction, derivativeLinearFunction}
-                          }, 0.05, 0.1);
+                          }, 0.07, 0.001);
 
     vector<ld> vect;
     ld last = 0.1;
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 30; i++) {
         vect.push_back(function(last));
         last += 0.1;
     }
@@ -39,7 +39,7 @@ int main() {
         }
     }
 
-    //network.show();
+    network.show();
 
     return 0;
 }
