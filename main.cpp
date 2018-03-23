@@ -3,8 +3,6 @@
 #include <random>
 #include "NeuralNetwork.h"
 
-using std::make_pair;
-
 const unsigned long long LEVEL_1 = 7;
 const unsigned long long LEVEL_2 = 4;
 const unsigned long long LEVEL_3 = 1;
@@ -24,6 +22,8 @@ int main() {
 
     vector<ld> vect;
     ld last = 0.1;
+
+	//заполнение обучающей выборки
     for (int i = 0; i < 30; i++) {
         vect.push_back(function(last));
         last += 0.1;
@@ -33,9 +33,9 @@ int main() {
         network.learning(vect);
     } catch (int e) {
         if (e == 1) {
-            std::cout << "Incorrent size of learning selection!" << std::endl;
+            cout << "Incorrent size of learning selection!" << endl;
         } else {
-            std::cout << e << std::endl;
+            cout << e << endl;
         }
     }
 

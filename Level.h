@@ -5,9 +5,7 @@
 #include <vector>
 #include "Neuron.h"
 
-using std::vector;
-
-
+//класс "Уровень"
 class Level {
     friend class NeuralNetwork;
     friend class Connection;
@@ -39,9 +37,9 @@ public:
     //вывод на экран суммы произведений весов на входные сигналы нейронов
     void get() const {
         for (ull i = 0; i < neurons.size(); i++) {
-            std::cout << neurons.at(i)->x << ' ';
+            cout << neurons.at(i)->x << ' ';
         }
-        std::cout << std::endl;
+        cout << endl;
     }
 
 };

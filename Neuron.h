@@ -5,6 +5,7 @@
 #include "Functions.h"
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+//класс "Нейрон"
 class Neuron {
 
     friend class Level;
@@ -15,7 +16,7 @@ class Neuron {
     ld x;
 
 public:
-
+	//конструктор с заданием х
     Neuron() : x(randomCplusplus11()) {}
 
 };

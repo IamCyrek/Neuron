@@ -1,17 +1,14 @@
 #ifndef NEURONS_CONNECTION_H
 #define NEURONS_CONNECTION_H
 
-
 #include <vector>
 #include <iostream>
 #include "Level.h"
 
-using std::vector;
-
 //порог по умолчанию
 const ld DEFAULT_T = 0;
 
-
+//класс "Соединение"
 class Connection {
 
     friend class NeuralNetwork;
@@ -28,6 +25,7 @@ class Connection {
     //следующий уровень
     Level* after;
 
+	//ошибки для выходного и скрытых слоев (backpropagation)
     vector<ld> gamma;
 
     //шаг обучения
@@ -66,6 +64,7 @@ public:
         }
     }
 
+	//преобразует значения из предыдущего слоя в следующий
     void x_to_y() {
         for (ull j = 0; j < after->neurons.size(); j++) {
 			after->neurons.at(j)->x = 0;
@@ -80,6 +79,7 @@ public:
         }
     }
 
+	//находит гаммы для последнего слоя
     ld backpropogationForLast(const vector<ld> &etalon) {
         ld sum = 0;
         for (ull i = 0; i < after->neurons.size(); i++) {
@@ -92,6 +92,7 @@ public:
         return sum;
     }
 
+	//находит гаммы для скрытых слоев
     void backpropogationForHidden(const Connection *nextConnection) {
         for (ull i = 0; i < nextConnection->before->neurons.size(); i++) {
             ld sum = 0;
@@ -124,9 +125,9 @@ public:
     void show() const  {
         for (const auto &j : w) {
             for (const auto &k : j) {
-                std::cout << std::setw(12) << std::left << k << ' ';
+                cout << setw(12) << left << k << ' ';
             }
-            std::cout << std::endl;
+            cout << endl;
         }
     }
 

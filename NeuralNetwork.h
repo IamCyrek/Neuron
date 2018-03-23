@@ -6,11 +6,6 @@
 #include "Connection.h"
 #include "ParametersForLevel.h"
 
-using std::vector;
-using std::cin;
-using std::cout;
-using std::endl;
-
 class NeuralNetwork {
 
     //вектор слоев нейронной сети
@@ -56,7 +51,7 @@ public:
         }
     }
 
-    //обучение сети(в разработке)
+    //обучение сети
     void learning(vector<ld> learn) {
         if (learn.size() < levels.at(0)->neurons.size()) {
             throw 1;
@@ -106,9 +101,9 @@ public:
                 //cout << endl;
             }
             E/=2.0;
-            std::cout << E << ' ' << Em << std::endl;
+            cout << E << ' ' << Em << endl;
         } while (E > Em && ++time < 1000);
-        std::cout << "////////////////////////////////// " << time << std::endl;
+        cout << "////////////////////////////////// " << time << endl;
     }
 
     //демонстрация весов
