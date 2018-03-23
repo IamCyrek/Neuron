@@ -1,7 +1,6 @@
 #ifndef NEURONS_NEURALNETWORK_H
 #define NEURONS_NEURALNETWORK_H
 
-
 #include <vector>
 #include <iomanip>
 #include "Connection.h"
@@ -11,7 +10,6 @@ using std::vector;
 using std::cin;
 using std::cout;
 using std::endl;
-
 
 class NeuralNetwork {
 

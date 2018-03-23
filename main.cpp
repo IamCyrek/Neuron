@@ -12,7 +12,7 @@ const ld LEARNING[LEVEL_1]={};
 ld (*const NULL_FUNCTION)(const ld) = NULL;
 ld (*const NULL_DERIVATIVE_FUNCTION)(const ld) = NULL;
 
-
+//главная функция
 int main() {
     srand(time(NULL));
 
