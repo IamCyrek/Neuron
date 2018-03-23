@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <string>
 #include <random>
 #include "NeuralNetwork.h"
@@ -12,7 +12,7 @@ const ld LEARNING[LEVEL_1]={};
 ld (*const NULL_FUNCTION)(const ld) = NULL;
 ld (*const NULL_DERIVATIVE_FUNCTION)(const ld) = NULL;
 
-//главная функция
+//РіР»Р°РІРЅР°СЏ С„СѓРЅРєС†РёСЏ
 int main() {
     srand(time(NULL));
 
