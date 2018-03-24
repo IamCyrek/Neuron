@@ -1,17 +1,10 @@
 #ifndef NEURONS_NEURALNETWORK_H
 #define NEURONS_NEURALNETWORK_H
 
-
 #include <vector>
 #include <iomanip>
 #include "Connection.h"
 #include "ParametersForLevel.h"
-
-using std::vector;
-using std::cin;
-using std::cout;
-using std::endl;
-
 
 class NeuralNetwork {
 
@@ -58,7 +51,7 @@ public:
         }
     }
 
-    //обучение сети(в разработке)
+    //обучение сети
     void learning(vector<ld> learn) {
         if (learn.size() < levels.at(0)->neurons.size()) {
             throw 1;
@@ -97,7 +90,7 @@ public:
                     connection.at(j)->changeWAndT();
                 }
 
-                std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
+                //std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
                 //if (levels.at(levels.size() - 1)->neurons.size() < etalon.size()) {
                     //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
                 //std::cout << etalon.at(0);
@@ -108,9 +101,9 @@ public:
                 //cout << endl;
             }
             E/=2.0;
-            //std::cout << E << ' ' << Em << std::endl;
+            cout << E << ' ' << Em << endl;
         } while (E > Em && ++time < 1000);
-        std::cout << "////////////////////////////////// " << time << std::endl;
+        cout << "////////////////////////////////// " << time << endl;
     }
 
     //демонстрация весов
