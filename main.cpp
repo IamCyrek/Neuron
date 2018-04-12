@@ -1,45 +1,117 @@
 ﻿#include <iostream>
-#include <string>
 #include <random>
 #include "NeuralNetwork.h"
 
-const unsigned long long LEVEL_1 = 7;
-const unsigned long long LEVEL_2 = 4;
-const unsigned long long LEVEL_3 = 1;
+const ull LEVEL_1 = 8;
+const ull LEVEL_2 = 6;
+const ull LEVEL_3 = 1;
+//const ld FUNC_STEP = 0.1;
+const ld ALPHA_STEP = 0.0005;
+const ld EXPECTED_ERROR = 0.0001;
+const ull SIZE_OF_WHOLE_ARR = 125;
+const ld PERCENT_OF_ETALON_ARR = 0.2;
+const ull SIZE_OF_ETALON_ARR = (ull) round ((ld)SIZE_OF_WHOLE_ARR * PERCENT_OF_ETALON_ARR);
+const ull SIZE_OF_LEARNING_ARR = SIZE_OF_WHOLE_ARR - SIZE_OF_ETALON_ARR;
+
 const ld LEARNING[LEVEL_1]={};
 ld (*const NULL_FUNCTION)(const ld) = NULL;
 ld (*const NULL_DERIVATIVE_FUNCTION)(const ld) = NULL;
 
+void showPredictedAndEtalon(vector<ld> vectPredicted, vector<ld> vectEtalon) {
+    cout<<"#Predicted and Etalon:#\n";
+    for (int i=0; i<vectPredicted.size(); i++) {
+        cout<<vectPredicted[i]<<"; "<<vectEtalon[i]<<";\n";
+    }
+}
+
 //главная функция
 int main() {
+
+    /*vector<ld> x, y;
+    functionOfEnon(100, x, y);
+
+    for (ull i = 0; i < 100; i++) {
+        cout << x.at(i) << " ";
+    } cout << endl;
+
+    for (ull i = 0; i < 100; i++) {
+        cout << y.at(i) << " ";
+    } cout << endl;
+
+    return 0;*/
     srand(time(NULL));
 
     NeuralNetwork network({
           {LEVEL_1, NULL_FUNCTION, NULL_DERIVATIVE_FUNCTION},
           {LEVEL_2, sygmoidFunction, derivativeSygmoidFunction},
           {LEVEL_3, linearFunction, derivativeLinearFunction}
-                          }, 0.07, 0.001);
+                          }, ALPHA_STEP, EXPECTED_ERROR);
 
-    vector<ld> vect;
-    ld last = 0.1;
+    /*vector<ld> vectLearn;
+    vector<ld> vectEtalon;
+    vector<ld> vectStartLearn;
+    ld last = 0;
 
 	//заполнение обучающей выборки
-    for (int i = 0; i < 30; i++) {
-        vect.push_back(function(last));
-        last += 0.1;
+    for (ull i = 0; i < SIZE_OF_WHOLE_ARR; i++) {
+        if (i<SIZE_OF_LEARNING_ARR) {
+            vectLearn.push_back(function(last));
+            if (SIZE_OF_LEARNING_ARR-i<=LEVEL_1) {
+                vectStartLearn.push_back(function(last));
+            }
+        }
+        else {
+            vectEtalon.push_back(function(last));
+        }
+        last += FUNC_STEP;
+    }*/
+
+    vector<ld> vectLearn;
+    vector<ld> vectEtalon;
+    vector<ld> vectStartLearn;
+    vector<ld> x, y;
+    functionOfEnon(SIZE_OF_WHOLE_ARR, x, y);
+
+
+    //заполнение обучающей выборки
+    for (ull i = 0; i < SIZE_OF_WHOLE_ARR; i++) {
+        if (i<SIZE_OF_LEARNING_ARR) {
+            vectLearn.push_back(y.at(i));
+            if (SIZE_OF_LEARNING_ARR-i<=LEVEL_1) {
+                vectStartLearn.push_back(y.at(i));
+            }
+        }
+        else {
+            vectEtalon.push_back(y.at(i));
+        }
     }
 
+    /*for (ull i = 0; i < y.size(); i++) {
+        cout << y.at(i) << " ";
+    } cout << endl;
+    for (ull i = 0; i < vectLearn.size(); i++) {
+        cout << vectLearn.at(i) << " ";
+    } cout << endl;
+    for (ull i = 0; i < vectStartLearn.size(); i++) {
+        cout << vectStartLearn.at(i) << " ";
+    } cout << endl;
+    for (ull i = 0; i < vectEtalon.size(); i++) {
+        cout << vectEtalon.at(i) << " ";
+    } cout << endl;*/
+
     try {
-        network.learning(vect);
+        network.learning(vectLearn);
     } catch (int e) {
         if (e == 1) {
-            cout << "Incorrent size of learning selection!" << endl;
+            cout << "Incorrect size of learning selection!" << endl;
         } else {
             cout << e << endl;
         }
     }
 
-    network.show();
+    vector<ld> vectPredicted = network.predicting(vectStartLearn, vectEtalon.size());
+    showPredictedAndEtalon(vectPredicted, vectEtalon);
+    //network.show();
 
     return 0;
 }
