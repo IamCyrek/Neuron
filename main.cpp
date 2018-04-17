@@ -80,7 +80,7 @@ int main() {
     vector<ld> vectLearn;
     vector<ld> vectEtalon;
     vector<ld> vectStartLearn;
-    vector<ld> x = getWholeVector(-1.,2.,SIZE_OF_WHOLE_ARR, linearFunction);
+    vector<ld> x = getWholeVector(-0.5,1.5,SIZE_OF_WHOLE_ARR, cosinusFunction);
 
 //    for (auto n: x) {
 //        cout<<n<<endl;
@@ -123,6 +123,7 @@ int main() {
         }
     }
 
+//    return 0;
     vector<ld> vectPredicted = network.predicting(vectStartLearn, vectEtalon.size());
     showPredictedAndEtalon(vectPredicted, vectEtalon);
     //network.show();
