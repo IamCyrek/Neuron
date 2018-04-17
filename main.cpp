@@ -3,12 +3,12 @@
 #include "NeuralNetwork.h"
 
 const ull LEVEL_1 = 7;
-const ull LEVEL_2 = 4;
+const ull LEVEL_2 = 5;
 const ull LEVEL_3 = 1;
 //const ld FUNC_STEP = 0.1;
-const ld ALPHA_STEP = 0.1;
+const ld ALPHA_STEP = 0.05;
 const ld EXPECTED_ERROR = 0.005;
-const ull SIZE_OF_WHOLE_ARR = 500;
+const ull SIZE_OF_WHOLE_ARR = 50;
 const ld PERCENT_OF_ETALON_ARR = 0.2;
 const ull SIZE_OF_ETALON_ARR = (ull) round ((ld)SIZE_OF_WHOLE_ARR * PERCENT_OF_ETALON_ARR);
 const ull SIZE_OF_LEARNING_ARR = SIZE_OF_WHOLE_ARR - SIZE_OF_ETALON_ARR;
@@ -20,8 +20,19 @@ ld (*const NULL_DERIVATIVE_FUNCTION)(const ld) = NULL;
 void showPredictedAndEtalon(vector<ld> vectPredicted, vector<ld> vectEtalon) {
     cout<<"#Predicted and Etalon:#\n";
     for (int i=0; i<vectPredicted.size(); i++) {
-        cout<<vectPredicted[i]<<"; "<<vectEtalon[i]<<";\n";
+        cout<<vectPredicted[i]<<endl;
+        //cout<<vectPredicted[i]<<"; "<<vectEtalon[i]<<";\n";
     }
+}
+
+vector<ld> getWholeVector (ld begin, ld end, ull sizeOfWholeArr, ld (*func) (const ld)) {
+    ld step = (end-begin)/((ld)sizeOfWholeArr-1);
+    vector<ld> x;
+    for (ull i=0; i<sizeOfWholeArr-1; i++) {
+        x.push_back(func(i*step+begin));
+    }
+    x.push_back(func(end));
+    return x;
 }
 
 //главная функция
@@ -69,8 +80,12 @@ int main() {
     vector<ld> vectLearn;
     vector<ld> vectEtalon;
     vector<ld> vectStartLearn;
-    vector<ld> x = functionOfEnon(SIZE_OF_WHOLE_ARR);
+    vector<ld> x = getWholeVector(-1.,2.,SIZE_OF_WHOLE_ARR, linearFunction);
 
+//    for (auto n: x) {
+//        cout<<n<<endl;
+//    }
+//    return 0;
 
     //заполнение обучающей выборки
     for (ull i = 0; i < SIZE_OF_WHOLE_ARR; i++) {
