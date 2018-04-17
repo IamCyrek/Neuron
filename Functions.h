@@ -14,8 +14,8 @@ typedef long double ld;
 //для ряда Энона
 const ld A = 1.4;
 const ld B = 0.3;
-const ld X0 = 0.;
-const ld Y0 = 0.;
+const ld X0 = 0.1;
+const ld X1 = 0.1;
 
 //функция для получения рандомных чисел
 ld randomCplusplus11 (const double mi = -0.5, const double ma = 1.5) {
@@ -53,19 +53,23 @@ ld derivativeSygmoidFunction(const ld y) {
 }
 
 
-void functionOfEnon(ull numberOfX, vector<ld> &x, vector<ld> &y) {
-    if (x.size() != 0 || y.size()) {
-        cout << "ATTENTTION!!!" << endl;
-        x.clear();
-        y.clear();
+vector<ld> functionOfEnon(ull numberOfX) {
+    vector<ld> x;
+    if (numberOfX==0)
+        return x;
+    else {
+        x.push_back(X0);
+        if (numberOfX==1)
+            return x;
+        else {
+            x.push_back(X1);
+            for (ull i = 2; i < numberOfX; i++) {
+                ld newX = 1. - A*x[i-1]*x[i-1]+B*x[i-2];
+                x.push_back(newX);
+            }
+        }
     }
-
-    x.push_back(X0);
-    y.push_back(Y0);
-    for (ull i = 1; i < numberOfX; i++) {
-        x.push_back(1 - A * pow(x.at(i - 1), 2) + y.at(i - 1));
-        y.push_back(B * x.at(i - 1));
-    }
+    return x;
 }
 
 //ld (*const DEFAULT_FUNCTION)(const ld)  = linearFunction;

@@ -102,7 +102,7 @@ public:
             }
             E/=2.0;
             cout << E << ' ' << Em << endl;
-        } while (E > Em && ++time < 100000);
+        } while (E > Em && ++time < 10000);
         cout << "////////////////////////////////// " << time << endl;
     }
 

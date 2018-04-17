@@ -2,13 +2,13 @@
 #include <random>
 #include "NeuralNetwork.h"
 
-const ull LEVEL_1 = 8;
-const ull LEVEL_2 = 6;
+const ull LEVEL_1 = 7;
+const ull LEVEL_2 = 4;
 const ull LEVEL_3 = 1;
 //const ld FUNC_STEP = 0.1;
-const ld ALPHA_STEP = 0.0005;
-const ld EXPECTED_ERROR = 0.0001;
-const ull SIZE_OF_WHOLE_ARR = 125;
+const ld ALPHA_STEP = 0.1;
+const ld EXPECTED_ERROR = 0.005;
+const ull SIZE_OF_WHOLE_ARR = 500;
 const ld PERCENT_OF_ETALON_ARR = 0.2;
 const ull SIZE_OF_ETALON_ARR = (ull) round ((ld)SIZE_OF_WHOLE_ARR * PERCENT_OF_ETALON_ARR);
 const ull SIZE_OF_LEARNING_ARR = SIZE_OF_WHOLE_ARR - SIZE_OF_ETALON_ARR;
@@ -69,20 +69,19 @@ int main() {
     vector<ld> vectLearn;
     vector<ld> vectEtalon;
     vector<ld> vectStartLearn;
-    vector<ld> x, y;
-    functionOfEnon(SIZE_OF_WHOLE_ARR, x, y);
+    vector<ld> x = functionOfEnon(SIZE_OF_WHOLE_ARR);
 
 
     //заполнение обучающей выборки
     for (ull i = 0; i < SIZE_OF_WHOLE_ARR; i++) {
         if (i<SIZE_OF_LEARNING_ARR) {
-            vectLearn.push_back(y.at(i));
+            vectLearn.push_back(x.at(i));
             if (SIZE_OF_LEARNING_ARR-i<=LEVEL_1) {
-                vectStartLearn.push_back(y.at(i));
+                vectStartLearn.push_back(x.at(i));
             }
         }
         else {
-            vectEtalon.push_back(y.at(i));
+            vectEtalon.push_back(x.at(i));
         }
     }
 
