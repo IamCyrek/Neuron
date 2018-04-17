@@ -98,7 +98,7 @@ public:
             ld sum = 0;
             for (ull j = 0; j < nextConnection->after->neurons.size(); j++) {
                 sum += nextConnection->gamma.at(j)
-                       * derivativeFunction(nextConnection->after->neurons.at(j)->x)
+                       * nextConnection->derivativeFunction(nextConnection->after->neurons.at(j)->x)
                        * nextConnection->w.at(i).at(j);
             }
             gamma.at(i) = sum;
