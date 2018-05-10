@@ -6,8 +6,6 @@
 #include "Connection.h"
 #include "ParametersForLevel.h"
 
-const ld ALPHA_STEP = 0.01;
-
 class NeuralNetwork {
 
     //вектор слоев нейронной сети
@@ -79,6 +77,8 @@ public:
                     con->x_to_y();
                 }
 
+
+
                 E += connection.at(connection.size() - 1)->backpropogationForLast(etalon);
                 for (ll j = connection.size() - 2; j >= 0; j--) {
                     connection.at(j)->
@@ -86,41 +86,24 @@ public:
                             connection.at(j + 1));
                 }
 
-                for (ll ii = connection.size()-1; ii>=0; ii--) {
-                    if (ii==connection.size()-1) {
-                        connection[ii]->alpha = ALPHA_STEP;
-                    }
-                    else {
-                        ld sum1 = 0.;
-                        ld sum2 = 0.;
-                        ld sum3 = 0.;
-                        for (ull j=0; j<connection[ii]->gamma.size(); j++) {
-                            sum1 += pow(connection[ii]->gamma[j],2.)
-                                    *(connection[ii]->after->neurons[j]->x)
-                                    *(1.-connection[ii]->after->neurons[j]->x);
-                            sum2 += pow(
-                                    connection[ii]->gamma[j]
-                                        *(connection[ii]->after->neurons[j]->x)
-                                        *(1.-connection[ii]->after->neurons[j]->x),
-                                    2.);
-                        }
-                        for (ull j=0; j<connection[ii+1]->after->neurons.size(); j++) {
-                            sum3+= pow(connection[ii+1]->after->neurons[j]->x,2.);
-                        }
-                        connection[ii]->alpha = 4.*sum1/((1.+sum3)*sum2)>0.5?0.5:4.*sum1/((1.+sum3)*sum2);
-                        cout<<"ALPHA = "<<connection[ii]->alpha<<endl;
-                    }
-                }
-
                 for (ll j = connection.size() - 1; j >= 0; j--) {
                     connection.at(j)->changeWAndT();
                 }
 
+                //std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
+                //if (levels.at(levels.size() - 1)->neurons.size() < etalon.size()) {
+                    //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
+                //std::cout << etalon.at(0);
+                //}
+                //std::cout << std::endl;
+
+                //show();
+                //cout << endl;
             }
-            E /= 2.0;
+            E/=2.0;
             cout << E << endl;
             //cout << E << ' ' << Em << endl;
-        } while (E > Em && ++time < 10000);
+        } while (E > Em && ++time < 20000);
         cout << "////////////////////////////////// " << time << endl;
     }
 

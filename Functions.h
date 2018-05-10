@@ -14,7 +14,7 @@ typedef long double ld;
 //для ряда Энона
 const ld A = 1.4;
 const ld B = 0.3;
-const ld X0 = 0.1;
+const ld X0 = 0.;
 const ld X1 = 0.1;
 
 //функция для получения рандомных чисел

@@ -7,9 +7,10 @@ const ull LEVEL_1 = 7;
 const ull LEVEL_2 = 5;
 const ull LEVEL_3 = 1;
 //const ld FUNC_STEP = 0.1;
-const ld EXPECTED_ERROR = 0.001;
-const ull SIZE_OF_WHOLE_ARR = 50;
-const ld PERCENT_OF_ETALON_ARR = 0.2;
+const ld ALPHA_STEP = 0.1; //0.1 <0.3
+const ld EXPECTED_ERROR = 0.005; //0.005
+const ull SIZE_OF_WHOLE_ARR = 500; //500
+const ld PERCENT_OF_ETALON_ARR = 0.1;
 const ull SIZE_OF_ETALON_ARR = (ull) round ((ld)SIZE_OF_WHOLE_ARR * PERCENT_OF_ETALON_ARR);
 const ull SIZE_OF_LEARNING_ARR = SIZE_OF_WHOLE_ARR - SIZE_OF_ETALON_ARR;
 
@@ -18,10 +19,17 @@ ld (*const NULL_FUNCTION)(const ld) = NULL;
 ld (*const NULL_DERIVATIVE_FUNCTION)(const ld) = NULL;
 
 void showPredictedAndEtalon(vector<ld> vectPredicted, vector<ld> vectEtalon) {
-    cout<<"#Predicted and Etalon:#\n";
+//    cout<<"#Predicted and Etalon:#\n";
+//    for (int i=0; i<vectPredicted.size(); i++) {
+//        cout<<vectPredicted[i]<<"; "<<vectEtalon[i]<<";\n";
+//    }
+    cout<<"#Predicted:\n";
     for (int i=0; i<vectPredicted.size(); i++) {
-        //cout<<vectPredicted[i]<<endl;
-        cout<<vectPredicted[i]<<"; "<<vectEtalon[i]<<";\n";
+        cout<<vectPredicted[i]<<"\n";
+    }
+    cout<<"#Etalon:\n";
+    for (int i=0; i<vectEtalon.size(); i++) {
+        cout<<vectEtalon[i]<<"\n";
     }
 }
 
