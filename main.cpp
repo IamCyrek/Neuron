@@ -1,45 +1,148 @@
 ﻿#include <iostream>
-#include <string>
 #include <random>
 #include "NeuralNetwork.h"
+#include "OLS.h"
 
-const unsigned long long LEVEL_1 = 7;
-const unsigned long long LEVEL_2 = 4;
-const unsigned long long LEVEL_3 = 1;
+const ull LEVEL_1 = 7;
+const ull LEVEL_2 = 5;
+const ull LEVEL_3 = 1;
+//const ld FUNC_STEP = 0.1;
+const ld ALPHA_STEP = 0.1; //0.1 <0.3
+const ld EXPECTED_ERROR = 0.005; //0.005
+const ull SIZE_OF_WHOLE_ARR = 500; //500
+const ld PERCENT_OF_ETALON_ARR = 0.1;
+const ull SIZE_OF_ETALON_ARR = (ull) round ((ld)SIZE_OF_WHOLE_ARR * PERCENT_OF_ETALON_ARR);
+const ull SIZE_OF_LEARNING_ARR = SIZE_OF_WHOLE_ARR - SIZE_OF_ETALON_ARR;
+
 const ld LEARNING[LEVEL_1]={};
 ld (*const NULL_FUNCTION)(const ld) = NULL;
 ld (*const NULL_DERIVATIVE_FUNCTION)(const ld) = NULL;
 
+void showPredictedAndEtalon(vector<ld> vectPredicted, vector<ld> vectEtalon) {
+//    cout<<"#Predicted and Etalon:#\n";
+//    for (int i=0; i<vectPredicted.size(); i++) {
+//        cout<<vectPredicted[i]<<"; "<<vectEtalon[i]<<";\n";
+//    }
+    cout<<"#Predicted:\n";
+    for (int i=0; i<vectPredicted.size(); i++) {
+        cout<<vectPredicted[i]<<"\n";
+    }
+    cout<<"#Etalon:\n";
+    for (int i=0; i<vectEtalon.size(); i++) {
+        cout<<vectEtalon[i]<<"\n";
+    }
+}
+
+vector<ld> getWholeVector (ld begin, ld end, ull sizeOfWholeArr, ld (*func) (const ld)) {
+    ld step = (end-begin)/((ld)sizeOfWholeArr-1);
+    vector<ld> x;
+    for (ull i=0; i<sizeOfWholeArr-1; i++) {
+        x.push_back(func(i*step+begin));
+    }
+    x.push_back(func(end));
+    return x;
+}
+
 //главная функция
 int main() {
+
+    /*vector<ld> x, y;
+    functionOfEnon(100, x, y);
+
+    for (ull i = 0; i < 100; i++) {
+        cout << x.at(i) << " ";
+    } cout << endl;
+
+    for (ull i = 0; i < 100; i++) {
+        cout << y.at(i) << " ";
+    } cout << endl;
+
+    return 0;*/
     srand(time(NULL));
 
     NeuralNetwork network({
           {LEVEL_1, NULL_FUNCTION, NULL_DERIVATIVE_FUNCTION},
           {LEVEL_2, sygmoidFunction, derivativeSygmoidFunction},
           {LEVEL_3, linearFunction, derivativeLinearFunction}
-                          }, 0.07, 0.001);
+                          }, ALPHA_STEP, EXPECTED_ERROR);
 
-    vector<ld> vect;
-    ld last = 0.1;
+    /*vector<ld> vectLearn;
+    vector<ld> vectEtalon;
+    vector<ld> vectStartLearn;
+    ld last = 0;
 
 	//заполнение обучающей выборки
-    for (int i = 0; i < 30; i++) {
-        vect.push_back(function(last));
-        last += 0.1;
+    for (ull i = 0; i < SIZE_OF_WHOLE_ARR; i++) {
+        if (i<SIZE_OF_LEARNING_ARR) {
+            vectLearn.push_back(function(last));
+            if (SIZE_OF_LEARNING_ARR-i<=LEVEL_1) {
+                vectStartLearn.push_back(function(last));
+            }
+        }
+        else {
+            vectEtalon.push_back(function(last));
+        }
+        last += FUNC_STEP;
+    }*/
+
+    vector<ld> vectLearn;
+    vector<ld> vectEtalon;
+    vector<ld> vectStartLearn;
+//    vector<ld> x = getWholeVector(-0.5,10,SIZE_OF_WHOLE_ARR, cosinusFunction);
+    vector<ld> x = functionOfEnon(SIZE_OF_WHOLE_ARR);
+
+//    for (auto n: x) {
+//        cout<<n<<endl;
+//    }
+//    return 0;
+
+    //заполнение обучающей выборки
+    for (ull i = 0; i < SIZE_OF_WHOLE_ARR; i++) {
+        if (i<SIZE_OF_LEARNING_ARR) {
+            vectLearn.push_back(x.at(i));
+            if (SIZE_OF_LEARNING_ARR-i<=LEVEL_1) {
+                vectStartLearn.push_back(x.at(i));
+            }
+        }
+        else {
+            vectEtalon.push_back(x.at(i));
+        }
     }
 
+    /*for (ull i = 0; i < y.size(); i++) {
+        cout << y.at(i) << " ";
+    } cout << endl;
+    for (ull i = 0; i < vectLearn.size(); i++) {
+        cout << vectLearn.at(i) << " ";
+    } cout << endl;
+    for (ull i = 0; i < vectStartLearn.size(); i++) {
+        cout << vectStartLearn.at(i) << " ";
+    } cout << endl;
+    for (ull i = 0; i < vectEtalon.size(); i++) {
+        cout << vectEtalon.at(i) << " ";
+    } cout << endl;*/
+
     try {
-        network.learning(vect);
+        network.learning(vectLearn);
     } catch (int e) {
         if (e == 1) {
-            cout << "Incorrent size of learning selection!" << endl;
+            cout << "Incorrect size of learning selection!" << endl;
         } else {
             cout << e << endl;
         }
     }
 
-    network.show();
+//    return 0;
+    vector<ld> vectPredicted = network.predicting(vectStartLearn, vectEtalon.size());
+    showPredictedAndEtalon(vectPredicted, vectEtalon);
+    //network.show();
 
+    cout<<"-------------------------------------"<<endl;
+    vector<Point> vectErrs;
+    for (int i=0; i<vectPredicted.size(); i++) {
+        vectErrs.push_back(Point((ld)i, vectEtalon[i]-vectPredicted[i]));
+    }
+    PointSet pointSet(vectErrs);
+    cout<<"lambda"<<pointSet.getLambda()<<endl;
     return 0;
 }

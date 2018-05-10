@@ -101,9 +101,30 @@ public:
                 //cout << endl;
             }
             E/=2.0;
-            cout << E << ' ' << Em << endl;
-        } while (E > Em && ++time < 1000);
+            cout << E << endl;
+            //cout << E << ' ' << Em << endl;
+        } while (E > Em && ++time < 20000);
         cout << "////////////////////////////////// " << time << endl;
+    }
+
+    vector<ld> predicting(vector<ld> vectorStartLearn, ull etalonSize) {
+        vector<ld> vectPredicted;
+        for (ull i=0; i<etalonSize;) {
+            for (ull j=0; j<vectorStartLearn.size(); j++) {
+                levels.at(0)->neurons.at(j)->x = vectorStartLearn.at(j);
+            }
+            for (const auto &con : connection) {
+                con->x_to_y();
+            }
+            for (ull j=0; j<levels.at(levels.size()-1)->neurons.size(); j++) {
+                vectPredicted.push_back(levels.at(levels.size()-1)->neurons.at(j)->x);
+                vectorStartLearn.push_back(levels.at(levels.size()-1)->neurons.at(j)->x);
+                vectorStartLearn.erase(vectorStartLearn.begin()+1);
+                i++;
+            }
+        }
+        vectPredicted.resize(etalonSize);
+        return vectPredicted;
     }
 
     //демонстрация весов

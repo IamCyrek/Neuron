@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <iostream>
 #include "Neuron.h"
 
 //класс "Уровень"
