@@ -90,6 +90,8 @@ public:
                     connection.at(j)->changeWAndT();
                 }
 
+
+
                 //std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
                 //if (levels.at(levels.size() - 1)->neurons.size() < etalon.size()) {
                     //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
@@ -102,8 +104,19 @@ public:
             }
             E/=2.0;
             cout << E << endl;
+            ld first, second;
+            if (time==491) {
+                first = E;
+            } else if (time==500) {
+                second = E;
+                cout<<"KOEFF: "<<first-second<<endl;
+                if (first - second < 0.001) {
+                    cout<<"IN VAIN!!!"<<endl;
+                    break;
+                }
+            }
             //cout << E << ' ' << Em << endl;
-        } while (E > Em && ++time < 20000);
+        } while (E > Em && ++time < 15000);
         cout << "////////////////////////////////// " << time << endl;
     }
 
