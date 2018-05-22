@@ -1,6 +1,11 @@
 #ifndef NEURONS_NEURALNETWORK_H
 #define NEURONS_NEURALNETWORK_H
 
+#include "Functions.h"
+
+static const ull ITERATIONS = 20000;
+static const ull HOW_OFTEN_SHOW_ERROR = 100;
+
 #include <vector>
 #include <iomanip>
 #include "Connection.h"
@@ -103,20 +108,19 @@ public:
                 //cout << endl;
             }
             E/=2.0;
-            cout << E << endl;
-            ld first, second;
-            if (time==491) {
-                first = E;
-            } else if (time==500) {
-                second = E;
-                cout<<"KOEFF: "<<first-second<<endl;
-                if (first - second < 0.001) {
-                    cout<<"IN VAIN!!!"<<endl;
-                    break;
+            ld pred;
+            if (time%HOW_OFTEN_SHOW_ERROR==0) {
+                if (time>0) {
+                    ull prognoseIterations = (ull)round((E-Em)/(pred-E));
+                    cout << time/HOW_OFTEN_SHOW_ERROR <<": " << E << endl<<"Next is in: "<< prognoseIterations <<" iterations."<<endl;
+                    if (time/HOW_OFTEN_SHOW_ERROR+prognoseIterations>ITERATIONS/HOW_OFTEN_SHOW_ERROR) {
+                        cout<<"IN VAIN!"<<endl;
+                        break;
+                    }
                 }
+                pred = E;
             }
-            //cout << E << ' ' << Em << endl;
-        } while (E > Em && ++time < 15000);
+        } while (E > Em && ++time < ITERATIONS);
         cout << "////////////////////////////////// " << time << endl;
     }
 
