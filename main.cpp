@@ -109,19 +109,6 @@ int main() {
         }
     }
 
-    /*for (ull i = 0; i < y.size(); i++) {
-        cout << y.at(i) << " ";
-    } cout << endl;
-    for (ull i = 0; i < vectLearn.size(); i++) {
-        cout << vectLearn.at(i) << " ";
-    } cout << endl;
-    for (ull i = 0; i < vectStartLearn.size(); i++) {
-        cout << vectStartLearn.at(i) << " ";
-    } cout << endl;
-    for (ull i = 0; i < vectEtalon.size(); i++) {
-        cout << vectEtalon.at(i) << " ";
-    } cout << endl;*/
-
     try {
         network.learning(vectLearn);
     } catch (int e) {
