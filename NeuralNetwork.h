@@ -4,7 +4,8 @@
 #include "Functions.h"
 
 static const ull ITERATIONS = 20000;
-static const ull HOW_OFTEN_SHOW_ERROR = 100;
+static const ull HOW_OFTEN_SHOW_ERROR = 200;
+static const ld DEVIATION = 0.00000001;
 
 #include <vector>
 #include <iomanip>
@@ -57,7 +58,7 @@ public:
     }
 
     //обучение сети
-    void learning(vector<ld> learn) {
+    bool learning(vector<ld> learn, bool defective = false) {
         if (learn.size() < levels.at(0)->neurons.size()) {
             throw 1;
         }
@@ -70,8 +71,14 @@ public:
 
             for (ull i = 0; i < learn.size() - levels.at(0)->neurons.size() - levels.at(levels.size() - 1)->neurons.size() + 1; i++) {
                 for (ull j = 0; j < levels.at(0)->neurons.size(); j++) {
-                    levels.at(0)->neurons.at(j)->x =
-                            learn.at(i + j);
+                    if (defective&&j==0) {
+                        levels.at(0)->neurons.at(j)->x =
+                                learn.at(i + j)+DEVIATION;
+                    }
+                    else {
+                        levels.at(0)->neurons.at(j)->x =
+                                learn.at(i + j);
+                    }
                 }
 
                 vector<ld> etalon;
@@ -115,13 +122,14 @@ public:
                     cout << time/HOW_OFTEN_SHOW_ERROR <<": " << E << endl<<"Next is in: "<< prognoseIterations <<" iterations."<<endl;
                     if (time/HOW_OFTEN_SHOW_ERROR+prognoseIterations>ITERATIONS/HOW_OFTEN_SHOW_ERROR) {
                         cout<<"IN VAIN!"<<endl;
-                        break;
+                        return false;
                     }
                 }
                 pred = E;
             }
         } while (E > Em && ++time < ITERATIONS);
         cout << "////////////////////////////////// " << time << endl;
+        return true;
     }
 
     vector<ld> predicting(vector<ld> vectorStartLearn, ull etalonSize) {

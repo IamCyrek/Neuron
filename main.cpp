@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <random>
+#include "windows.h"
 #include "NeuralNetwork.h"
 #include "OLS.h"
 
@@ -13,23 +14,28 @@ const ull SIZE_OF_WHOLE_ARR = 500; //500
 const ld PERCENT_OF_ETALON_ARR = 0.1;
 const ull SIZE_OF_ETALON_ARR = (ull) round ((ld)SIZE_OF_WHOLE_ARR * PERCENT_OF_ETALON_ARR);
 const ull SIZE_OF_LEARNING_ARR = SIZE_OF_WHOLE_ARR - SIZE_OF_ETALON_ARR;
+const bool DEFECTIVE = true;
 
 const ld LEARNING[LEVEL_1]={};
 ld (*const NULL_FUNCTION)(const ld) = NULL;
 ld (*const NULL_DERIVATIVE_FUNCTION)(const ld) = NULL;
 
-void showPredictedAndEtalon(vector<ld> vectPredicted, vector<ld> vectEtalon) {
+void showPredictedAndEtalon(vector<ld> vectPredicted, vector<ld> vectDefective, vector<ld> vectEtalon) {
 //    cout<<"#Predicted and Etalon:#\n";
 //    for (int i=0; i<vectPredicted.size(); i++) {
 //        cout<<vectPredicted[i]<<"; "<<vectEtalon[i]<<";\n";
 //    }
     cout<<"#Predicted:\n";
-    for (int i=0; i<vectPredicted.size(); i++) {
-        cout<<vectPredicted[i]<<"\n";
+    for (ld i : vectPredicted) {
+        cout<< i <<"\n";
+    }
+    cout<<"#Defective:\n";
+    for (ld i : vectDefective) {
+        cout<< i <<"\n";
     }
     cout<<"#Etalon:\n";
-    for (int i=0; i<vectEtalon.size(); i++) {
-        cout<<vectEtalon[i]<<"\n";
+    for (ld i : vectEtalon) {
+        cout<< i <<"\n";
     }
 }
 
@@ -60,12 +66,12 @@ int main() {
     return 0;*/
     srand(time(NULL));
 
-    NeuralNetwork network({
+    NeuralNetwork *networkPointer = new NeuralNetwork ({
           {LEVEL_1, NULL_FUNCTION, NULL_DERIVATIVE_FUNCTION},
           {LEVEL_2, sygmoidFunction, derivativeSygmoidFunction},
           {LEVEL_3, linearFunction, derivativeLinearFunction}
                           }, ALPHA_STEP, EXPECTED_ERROR);
-
+    NeuralNetwork network = *networkPointer;
     /*vector<ld> vectLearn;
     vector<ld> vectEtalon;
     vector<ld> vectStartLearn;
@@ -110,7 +116,15 @@ int main() {
     }
 
     try {
-        network.learning(vectLearn);
+        while (!(network.learning(vectLearn))) {
+            cout << "Trying again..." << endl;
+            delete networkPointer;
+            networkPointer = new NeuralNetwork ({{LEVEL_1, NULL_FUNCTION, NULL_DERIVATIVE_FUNCTION},
+                                                        {LEVEL_2, sygmoidFunction, derivativeSygmoidFunction},
+                                                        {LEVEL_3, linearFunction, derivativeLinearFunction}
+                                                }, ALPHA_STEP, EXPECTED_ERROR);
+            network = *networkPointer;
+        }
     } catch (int e) {
         if (e == 1) {
             cout << "Incorrect size of learning selection!" << endl;
@@ -119,17 +133,44 @@ int main() {
         }
     }
 
-//    return 0;
     vector<ld> vectPredicted = network.predicting(vectStartLearn, vectEtalon.size());
-    showPredictedAndEtalon(vectPredicted, vectEtalon);
-    //network.show();
 
-    cout<<"-------------------------------------"<<endl;
+    cout<<"-------------------------------------"<<endl<<endl<<"Now, defective learning."<<endl;
+
+    delete networkPointer;
+    networkPointer = new NeuralNetwork ({{LEVEL_1, NULL_FUNCTION, NULL_DERIVATIVE_FUNCTION},
+                                         {LEVEL_2, sygmoidFunction, derivativeSygmoidFunction},
+                                         {LEVEL_3, linearFunction, derivativeLinearFunction}
+                                        }, ALPHA_STEP, EXPECTED_ERROR);
+    network = *networkPointer;
+
+    try {
+        while (!(network.learning(vectLearn, DEFECTIVE))) {
+            cout << "Trying again..." << endl;
+            delete networkPointer;
+            networkPointer = new NeuralNetwork ({{LEVEL_1, NULL_FUNCTION, NULL_DERIVATIVE_FUNCTION},
+                                                 {LEVEL_2, sygmoidFunction, derivativeSygmoidFunction},
+                                                 {LEVEL_3, linearFunction, derivativeLinearFunction}
+                                                }, ALPHA_STEP, EXPECTED_ERROR);
+            network = *networkPointer;
+        }
+    } catch (int e) {
+        if (e == 1) {
+            cout << "Incorrect size of learning selection!" << endl;
+        } else {
+            cout << e << endl;
+        }
+    }
+
+    vector<ld> vectDefective = network.predicting(vectStartLearn, vectEtalon.size());
+    showPredictedAndEtalon(vectPredicted, vectDefective, vectEtalon);
+
     vector<Point> vectErrs;
-    for (int i=0; i<vectPredicted.size(); i++) {
-        vectErrs.push_back(Point((ld)i, vectEtalon[i]-vectPredicted[i]));
+    for (int i=0; abs(vectDefective[i]-vectPredicted[i])<1.&&i<vectPredicted.size(); i++) {
+        vectErrs.push_back(Point((ld)i, abs(vectDefective[i]-vectPredicted[i])));
     }
     PointSet pointSet(vectErrs);
-    cout<<"lambda"<<pointSet.getLambda()<<endl;
+    cout<<"lambda = "<<pointSet.getLambda()<<endl;
+    Beep(523,5000);
     return 0;
 }
