@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include <random>
-#include "windows.h"
+//#include "windows.h"
 #include "NeuralNetwork.h"
 #include "OLS.h"
 
@@ -152,6 +152,6 @@ int main() {
     }
     PointSet pointSet(vectErrs);
     cout<<"lambda = "<<pointSet.getLambda()<<endl;
-    Beep(523,5000);
+    //Beep(523,5000);
     return 0;
 }
