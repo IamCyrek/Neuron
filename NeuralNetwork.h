@@ -139,7 +139,7 @@ public:
             for (auto &neuron : levels.at(levels.size() - 1)->neurons) {
                 vectPredicted.push_back(neuron->x);
                 vectorStartLearn.push_back(neuron->x);
-                vectorStartLearn.erase(vectorStartLearn.begin()+1);
+                vectorStartLearn.erase(vectorStartLearn.begin());
                 i++;
             }
         }
