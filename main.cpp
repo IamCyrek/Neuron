@@ -17,7 +17,8 @@ const ld EXPECTED_ERROR = 0.003; //0.005
 const ull SIZE_OF_LEARNING_ARR = 100;
 const ull SIZE_OF_ETALON_ARR = 100;
 const ull SIZE_OF_WHOLE_ARR = SIZE_OF_ETALON_ARR + SIZE_OF_LEARNING_ARR; //500
-const bool DEFECTIVE = true;
+
+const ld DEVIATION = 0.00000001;
 
 const ld LEARNING[LEVEL_1]={};
 ld (*const NULL_FUNCTION)(const ld) = NULL;
@@ -140,7 +141,9 @@ int main() {
 
     cout<<"-------------------------------------"<<endl;
 
-    vector<ld> vectDefective = network.predicting(vectStartLearn, vectEtalon.size(), DEFECTIVE);
+    vectStartLearn[vectStartLearn.size()-1] += DEVIATION;
+
+    vector<ld> vectDefective = network.predicting(vectStartLearn, vectEtalon.size());
     showPredictedAndEtalon(vectPredicted, vectDefective, vectEtalon);
 
     vector<Point> vectErrs;

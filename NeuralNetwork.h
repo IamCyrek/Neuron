@@ -5,7 +5,7 @@
 
 static const ull ITERATIONS = 30000;
 static const ull HOW_OFTEN_SHOW_ERROR = 200;
-static const ld DEVIATION = 0.00000001;
+
 
 #include <vector>
 #include <iomanip>
@@ -126,18 +126,12 @@ public:
         return true;
     }
 
-    vector<ld> predicting(vector<ld> vectorStartLearn, ull etalonSize, bool defective = false) {
+    vector<ld> predicting(vector<ld> vectorStartLearn, ull etalonSize) {
         vector<ld> vectPredicted;
         for (ull i=0; i<etalonSize;) {
             for (ull j=0; j<vectorStartLearn.size(); j++) {
-                if (defective&&j==0) {
-                    levels.at(0)->neurons.at(j)->x =
-                            vectorStartLearn.at(j)+DEVIATION;
-                }
-                else {
-                    levels.at(0)->neurons.at(j)->x =
-                            vectorStartLearn.at(j);
-                }
+                levels.at(0)->neurons.at(j)->x =
+                        vectorStartLearn.at(j);
             }
             for (const auto &con : connection) {
                 con->x_to_y();
