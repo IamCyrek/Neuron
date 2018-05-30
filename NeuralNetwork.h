@@ -3,8 +3,8 @@
 
 #include "Functions.h"
 
-static const ull ITERATIONS = 30000;
-static const ull HOW_OFTEN_SHOW_ERROR = 200;
+static const ull ITERATIONS = 100000;
+static const ull HOW_OFTEN_SHOW_ERROR = 500;
 
 
 #include <vector>

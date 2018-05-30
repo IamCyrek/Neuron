@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include <random>
-//#include "windows.h"
+#include "windows.h"
 #include "NeuralNetwork.h"
 #include "OLS.h"
 
@@ -9,7 +9,7 @@ const ull LEVEL_2 = 5;
 const ull LEVEL_3 = 1;
 //const ld FUNC_STEP = 0.1;
 const ld ALPHA_STEP = 0.1; //0.1 <0.3
-const ld EXPECTED_ERROR = 0.003; //0.005
+const ld EXPECTED_ERROR = 0.001; //0.005
 
 //const ld PERCENT_OF_ETALON_ARR = 0.5;
 //const ull SIZE_OF_ETALON_ARR = (ull) round ((ld)SIZE_OF_WHOLE_ARR * PERCENT_OF_ETALON_ARR);
@@ -29,6 +29,7 @@ void showPredictedAndEtalon(vector<ld> vectPredicted, vector<ld> vectDefective, 
 //    for (int i=0; i<vectPredicted.size(); i++) {
 //        cout<<vectPredicted[i]<<"; "<<vectEtalon[i]<<";\n";
 //    }
+    cout.precision(14);
     cout<<"#Predicted:\n";
     for (ld i : vectPredicted) {
         cout<< i <<"\n";
@@ -148,10 +149,11 @@ int main() {
 
     vector<Point> vectErrs;
     for (int i=0; abs(vectDefective[i]-vectPredicted[i])<1.&&i<vectPredicted.size(); i++) {
-        vectErrs.push_back(Point((ld)i, abs(vectDefective[i]-vectPredicted[i])));
+        vectErrs.push_back(Point((ld)i, log(abs(vectDefective[i]-vectPredicted[i]))));
     }
     PointSet pointSet(vectErrs);
+    cout<<"vector size = "<<pointSet.getSize()<<endl;
     cout<<"lambda = "<<pointSet.getLambda()<<endl;
-    //Beep(523,5000);
+    Beep(523,5000);
     return 0;
 }

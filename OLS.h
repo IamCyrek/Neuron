@@ -93,7 +93,9 @@ public:
 	long double getLambda() {
 		return lambda;
 	}
-
+    int getSize() {
+	    return points.size();
+	}
 };
 
 #endif //OLS_H
