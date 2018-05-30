@@ -1,6 +1,12 @@
 #ifndef NEURONS_NEURALNETWORK_H
 #define NEURONS_NEURALNETWORK_H
 
+#include "Functions.h"
+
+static const ull ITERATIONS = 100000;
+static const ull HOW_OFTEN_SHOW_ERROR = 500;
+
+
 #include <vector>
 #include <iomanip>
 #include "Connection.h"
@@ -52,7 +58,7 @@ public:
     }
 
     //обучение сети
-    void learning(vector<ld> learn) {
+    bool learning(vector<ld> learn) {
         if (learn.size() < levels.at(0)->neurons.size()) {
             throw 1;
         }
@@ -65,8 +71,8 @@ public:
 
             for (ull i = 0; i < learn.size() - levels.at(0)->neurons.size() - levels.at(levels.size() - 1)->neurons.size() + 1; i++) {
                 for (ull j = 0; j < levels.at(0)->neurons.size(); j++) {
-                    levels.at(0)->neurons.at(j)->x =
-                            learn.at(i + j);
+                        levels.at(0)->neurons.at(j)->x =
+                                learn.at(i + j);
                 }
 
                 vector<ld> etalon;
@@ -90,6 +96,8 @@ public:
                     connection.at(j)->changeWAndT();
                 }
 
+
+
                 //std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
                 //if (levels.at(levels.size() - 1)->neurons.size() < etalon.size()) {
                     //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
@@ -101,25 +109,37 @@ public:
                 //cout << endl;
             }
             E/=2.0;
-            cout << E << endl;
-            //cout << E << ' ' << Em << endl;
-        } while (E > Em && ++time < 20000);
+            ld pred;
+            if (time%HOW_OFTEN_SHOW_ERROR==0) {
+                if (time>0) {
+                    ull prognoseIterations = (ull)round((E-Em)/(pred-E));
+                    cout << time/HOW_OFTEN_SHOW_ERROR <<": " << E << endl<<"Next is in: "<< prognoseIterations <<" iterations."<<endl;
+                    if (time/HOW_OFTEN_SHOW_ERROR+prognoseIterations>ITERATIONS/HOW_OFTEN_SHOW_ERROR) {
+                        cout<<"IN VAIN!"<<endl;
+                        return false;
+                    }
+                }
+                pred = E;
+            }
+        } while (E > Em && ++time < ITERATIONS);
         cout << "////////////////////////////////// " << time << endl;
+        return true;
     }
 
     vector<ld> predicting(vector<ld> vectorStartLearn, ull etalonSize) {
         vector<ld> vectPredicted;
         for (ull i=0; i<etalonSize;) {
             for (ull j=0; j<vectorStartLearn.size(); j++) {
-                levels.at(0)->neurons.at(j)->x = vectorStartLearn.at(j);
+                levels.at(0)->neurons.at(j)->x =
+                        vectorStartLearn.at(j);
             }
             for (const auto &con : connection) {
                 con->x_to_y();
             }
-            for (ull j=0; j<levels.at(levels.size()-1)->neurons.size(); j++) {
-                vectPredicted.push_back(levels.at(levels.size()-1)->neurons.at(j)->x);
-                vectorStartLearn.push_back(levels.at(levels.size()-1)->neurons.at(j)->x);
-                vectorStartLearn.erase(vectorStartLearn.begin()+1);
+            for (auto &neuron : levels.at(levels.size() - 1)->neurons) {
+                vectPredicted.push_back(neuron->x);
+                vectorStartLearn.push_back(neuron->x);
+                vectorStartLearn.erase(vectorStartLearn.begin());
                 i++;
             }
         }
