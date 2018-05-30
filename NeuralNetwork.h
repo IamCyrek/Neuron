@@ -3,7 +3,7 @@
 
 #include "Functions.h"
 
-static const ull ITERATIONS = 20000;
+static const ull ITERATIONS = 30000;
 static const ull HOW_OFTEN_SHOW_ERROR = 200;
 static const ld DEVIATION = 0.00000001;
 
@@ -58,7 +58,7 @@ public:
     }
 
     //обучение сети
-    bool learning(vector<ld> learn, bool defective = false) {
+    bool learning(vector<ld> learn) {
         if (learn.size() < levels.at(0)->neurons.size()) {
             throw 1;
         }
@@ -71,14 +71,8 @@ public:
 
             for (ull i = 0; i < learn.size() - levels.at(0)->neurons.size() - levels.at(levels.size() - 1)->neurons.size() + 1; i++) {
                 for (ull j = 0; j < levels.at(0)->neurons.size(); j++) {
-                    if (defective&&j==0) {
-                        levels.at(0)->neurons.at(j)->x =
-                                learn.at(i + j)+DEVIATION;
-                    }
-                    else {
                         levels.at(0)->neurons.at(j)->x =
                                 learn.at(i + j);
-                    }
                 }
 
                 vector<ld> etalon;
@@ -132,18 +126,25 @@ public:
         return true;
     }
 
-    vector<ld> predicting(vector<ld> vectorStartLearn, ull etalonSize) {
+    vector<ld> predicting(vector<ld> vectorStartLearn, ull etalonSize, bool defective = false) {
         vector<ld> vectPredicted;
         for (ull i=0; i<etalonSize;) {
             for (ull j=0; j<vectorStartLearn.size(); j++) {
-                levels.at(0)->neurons.at(j)->x = vectorStartLearn.at(j);
+                if (defective&&j==0) {
+                    levels.at(0)->neurons.at(j)->x =
+                            vectorStartLearn.at(j)+DEVIATION;
+                }
+                else {
+                    levels.at(0)->neurons.at(j)->x =
+                            vectorStartLearn.at(j);
+                }
             }
             for (const auto &con : connection) {
                 con->x_to_y();
             }
-            for (ull j=0; j<levels.at(levels.size()-1)->neurons.size(); j++) {
-                vectPredicted.push_back(levels.at(levels.size()-1)->neurons.at(j)->x);
-                vectorStartLearn.push_back(levels.at(levels.size()-1)->neurons.at(j)->x);
+            for (auto &neuron : levels.at(levels.size() - 1)->neurons) {
+                vectPredicted.push_back(neuron->x);
+                vectorStartLearn.push_back(neuron->x);
                 vectorStartLearn.erase(vectorStartLearn.begin()+1);
                 i++;
             }
