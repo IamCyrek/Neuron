@@ -3,29 +3,17 @@
 //здесь функции для уровней
 
 #include <cmath>
-#include <cstdlib>
+#include <vector>
 
 using namespace std;
-
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double ld;
 
 //для ряда Энона
 const ld A = 1.4;
 const ld B = 0.3;
-const ld X0 = 0.5;
-const ld X1 = -0.1;
+const ld X0 = 0.2;
+const ld X1 = -0.5;
 
-//функция для получения рандомных чисел
-ld randomCplusplus11 (const double mi = -0.5, const double ma = 1.5) {
-    return ld(rand() * (ma - mi) / RAND_MAX + mi);
-    /*std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(mi, ma);
 
-    return dis(gen);*/
-}
 
 //функция для предсказания
 ld function(const ld x) {

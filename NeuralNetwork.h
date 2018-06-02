@@ -1,16 +1,11 @@
 #ifndef NEURONS_NEURALNETWORK_H
 #define NEURONS_NEURALNETWORK_H
 
-#include "Functions.h"
+#include "Connection.h"
+#include "ParametersForLevel.h"
 
 static const ull ITERATIONS = 100000;
 static const ull HOW_OFTEN_SHOW_ERROR = 500;
-
-
-#include <vector>
-#include <iomanip>
-#include "Connection.h"
-#include "ParametersForLevel.h"
 
 class NeuralNetwork {
 

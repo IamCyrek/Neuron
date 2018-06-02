@@ -1,8 +1,13 @@
-﻿#include <iostream>
-#include <random>
-#include "windows.h"
+﻿typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+
+using namespace std;
+
+#include <ctime>
 #include "NeuralNetwork.h"
 #include "OLS.h"
+#include "windows.h"
 
 const ull LEVEL_1 = 7;
 const ull LEVEL_2 = 5;

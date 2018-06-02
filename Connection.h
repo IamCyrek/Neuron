@@ -1,9 +1,8 @@
 #ifndef NEURONS_CONNECTION_H
 #define NEURONS_CONNECTION_H
 
-#include <vector>
-#include <iostream>
 #include "Level.h"
+#include "Functions.h"
 
 //порог по умолчанию
 const ld DEFAULT_T = 0;
@@ -25,7 +24,7 @@ class Connection {
     //следующий уровень
     Level* after;
 
-	//ошибки для выходного и скрытых слоев (backpropagation)
+	//ошибки для выходного и скрытых слоев (backpropogation)
     vector<ld> gamma;
 
     //шаг обучения
@@ -125,7 +124,7 @@ public:
     void show() const  {
         for (const auto &j : w) {
             for (const auto &k : j) {
-                cout << setw(12) << left << k << ' ';
+                cout << left << k << ' ';
             }
             cout << endl;
         }

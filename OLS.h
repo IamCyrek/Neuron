@@ -1,8 +1,6 @@
 #ifndef OLS_H
 #define OLS_H
 
-#define PI 3.14159265;
-
 #include <iostream>
 #include <vector>
 #include <cmath>
