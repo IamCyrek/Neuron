@@ -12,6 +12,7 @@ ld randomCplusplus11 (const double mi = -0.5, const double ma = 1.5) {
 
     return dis(gen);*/
 }
+
 //класс "Нейрон"
 class Neuron {
 

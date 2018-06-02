@@ -4,6 +4,7 @@ typedef long double ld;
 
 using namespace std;
 
+#include <ctime>
 #include "NeuralNetwork.h"
 #include "OLS.h"
 #include "windows.h"
