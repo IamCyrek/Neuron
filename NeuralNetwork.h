@@ -4,7 +4,6 @@
 #include "Connection.h"
 #include "ParametersForLevel.h"
 
-
 static const ull ITERATIONS = 100000;
 static const ull HOW_OFTEN_SHOW_ERROR = 500;
 

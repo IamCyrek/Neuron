@@ -2,6 +2,7 @@
 #define NEUTRONS_LEVEL_H
 
 #include "Neuron.h"
+#include <vector>
 #include <iostream>
 
 //класс "Уровень"

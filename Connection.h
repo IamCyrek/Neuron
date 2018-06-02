@@ -2,6 +2,7 @@
 #define NEURONS_CONNECTION_H
 
 #include "Level.h"
+#include "Functions.h"
 #include <iomanip>
 
 //порог по умолчанию

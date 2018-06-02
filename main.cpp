@@ -1,4 +1,10 @@
-﻿#include "NeuralNetwork.h"
+﻿typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+
+using namespace std;
+
+#include "NeuralNetwork.h"
 #include "OLS.h"
 #include "windows.h"
 
