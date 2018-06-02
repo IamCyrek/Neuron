@@ -1,7 +1,6 @@
 ﻿#ifndef NEURONS_PARAMETERSFORLEVEL_H
 #define NEURONS_PARAMETERSFORLEVEL_H
 
-
 #include "Functions.h"
 
 //определение типа "указатель на функцию" для передачи функции и ее производной

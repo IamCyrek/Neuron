@@ -1,8 +1,6 @@
-﻿#include <iostream>
-#include <random>
-#include "windows.h"
-#include "NeuralNetwork.h"
+﻿#include "NeuralNetwork.h"
 #include "OLS.h"
+#include "windows.h"
 
 const ull LEVEL_1 = 7;
 const ull LEVEL_2 = 5;

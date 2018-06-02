@@ -1,9 +1,8 @@
 #ifndef NEURONS_CONNECTION_H
 #define NEURONS_CONNECTION_H
 
-#include <vector>
-#include <iostream>
 #include "Level.h"
+#include <iomanip>
 
 //порог по умолчанию
 const ld DEFAULT_T = 0;

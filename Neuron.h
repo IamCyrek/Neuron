@@ -1,9 +1,7 @@
 #ifndef NEURONS_NEURON_H
 #define NEURONS_NEURON_H
 
-
 #include "Functions.h"
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //класс "Нейрон"
 class Neuron {
