@@ -4,9 +4,6 @@
 #include "Level.h"
 #include "Functions.h"
 
-//порог по умолчанию
-const ld DEFAULT_T = 0;
-
 //класс "Соединение"
 class Connection {
 
@@ -87,7 +84,6 @@ public:
         }
         ld xx = after->neurons.at(0)->x;
 
-
         return sum;
     }
 
@@ -117,16 +113,6 @@ public:
         for (ull i = 0; i < after->neurons.size(); i++) {
             T.at(i) += alpha * gamma.at(i)
                        * derivativeFunction(after->neurons.at(i)->x);
-        }
-    }
-
-    //показывает веса
-    void show() const  {
-        for (const auto &j : w) {
-            for (const auto &k : j) {
-                cout << left << k << ' ';
-            }
-            cout << endl;
         }
     }
 

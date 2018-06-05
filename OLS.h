@@ -9,8 +9,10 @@ using namespace std;
 
 
 class Point {
+
 	long double x;
 	long double y;
+
 public:
 
 	void read() {
@@ -20,14 +22,16 @@ public:
 	long double getX() {
 		return x;
 	}
-	long double getY() {
+
+    long double getY() {
 		return y;
 	}
 
-	Point(long double x=0., long double y=0.) {
+    explicit Point(long double x=0., long double y=0.) {
 		this->x = x;
 		this->y = y;
 	}
+
 };
 
 class PointSet {
@@ -58,6 +62,7 @@ class PointSet {
 	void calcA() {
 		A = (XY - X*Y) / (X2 - X*X);
 	}
+
 	void calcB() {
 		B = Y - A*X;
 	}
@@ -67,7 +72,8 @@ class PointSet {
 	}
 
 public:
-	PointSet(int n) {
+
+    explicit PointSet(int n) {
 		points.clear();
 		for (int i = 0; i < n; i++) {
 			Point point;
@@ -77,7 +83,7 @@ public:
 		calcEverything();
 	}
 
-	PointSet(vector<Point> points) {
+    explicit PointSet(vector<Point> points) {
 		this->points = points;
 		calcEverything();
 	}
@@ -94,6 +100,7 @@ public:
     int getSize() {
 	    return points.size();
 	}
+
 };
 
 #endif //OLS_H

@@ -59,15 +59,14 @@ public:
         }
         ull time = 0;
 
-        ld E = 0.;
+        ld E, pred = 0;
 
         do {
             E = 0.;
 
             for (ull i = 0; i < learn.size() - levels.at(0)->neurons.size() - levels.at(levels.size() - 1)->neurons.size() + 1; i++) {
                 for (ull j = 0; j < levels.at(0)->neurons.size(); j++) {
-                        levels.at(0)->neurons.at(j)->x =
-                                learn.at(i + j);
+                    levels.at(0)->neurons.at(j)->x = learn.at(i + j);
                 }
 
                 vector<ld> etalon;
@@ -81,21 +80,27 @@ public:
 
 
                 E += connection.at(connection.size() - 1)->backpropogationForLast(etalon);
-                for (ll j = connection.size() - 2; j >= 0; j--) {
+                for (ull j = connection.size() - 2; j >= 0; j--) {
                     connection.at(j)->
                             backpropogationForHidden(
                             connection.at(j + 1));
+                    if (j == 0) {
+                        break;
+                    }
                 }
 
-                for (ll j = connection.size() - 1; j >= 0; j--) {
+                for (ull j = connection.size() - 1; j >= 0; j--) {
                     connection.at(j)->changeWAndT();
+                    if (j == 0) {
+                        break;
+                    }
                 }
 
 
 
                 //std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
                 //if (levels.at(levels.size() - 1)->neurons.size() < etalon.size()) {
-                    //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
+                //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
                 //std::cout << etalon.at(0);
                 //}
                 //std::cout << std::endl;
@@ -103,14 +108,14 @@ public:
                 //show();
                 //cout << endl;
             }
-            E/=2.0;
-            ld pred;
-            if (time%HOW_OFTEN_SHOW_ERROR==0) {
-                if (time>0) {
+            E /= 2.0;
+            if (time % HOW_OFTEN_SHOW_ERROR == 0) {
+                if (time > 0) {
                     ull prognoseIterations = (ull)round((E-Em)/(pred-E));
-                    cout << time/HOW_OFTEN_SHOW_ERROR <<": " << E << endl<<"Next is in: "<< prognoseIterations <<" iterations."<<endl;
-                    if (time/HOW_OFTEN_SHOW_ERROR+prognoseIterations>ITERATIONS/HOW_OFTEN_SHOW_ERROR) {
-                        cout<<"IN VAIN!"<<endl;
+                    cout << time / HOW_OFTEN_SHOW_ERROR << ": " << E << endl
+                         << "Next is in: " << prognoseIterations << " iterations." << endl;
+                    if (time / HOW_OFTEN_SHOW_ERROR + prognoseIterations > ITERATIONS / HOW_OFTEN_SHOW_ERROR) {
+                        cout << "IN VAIN!" << endl;
                         return false;
                     }
                 }
@@ -123,8 +128,8 @@ public:
 
     vector<ld> predicting(vector<ld> vectorStartLearn, ull etalonSize) {
         vector<ld> vectPredicted;
-        for (ull i=0; i<etalonSize;) {
-            for (ull j=0; j<vectorStartLearn.size(); j++) {
+        for (ull i = 0; i < etalonSize; ) {
+            for (ull j = 0; j < vectorStartLearn.size(); j++) {
                 levels.at(0)->neurons.at(j)->x =
                         vectorStartLearn.at(j);
             }
@@ -134,24 +139,12 @@ public:
             for (auto &neuron : levels.at(levels.size() - 1)->neurons) {
                 vectPredicted.push_back(neuron->x);
                 vectorStartLearn.push_back(neuron->x);
-                vectorStartLearn.erase(vectorStartLearn.begin());
+                vectorStartLearn.erase(vectorStartLearn.begin(),
+                                       vectorStartLearn.begin() + levels.at(levels.size() - 1)->neurons.size());
                 i++;
             }
         }
-        vectPredicted.resize(etalonSize);
         return vectPredicted;
-    }
-
-    //демонстрация весов
-    void show() const {
-        for (const auto &i : levels) {
-            i->get();
-        }
-//        std::cout << "///////////////////////////" << std::endl;
-//        for (const auto &i : connection) {
-//            i->show();
-//            std::cout << "///////////////////////////" << std::endl;
-//        }
     }
 
 };

@@ -16,9 +16,9 @@ const ld X1 = -0.5;
 
 
 //функция для предсказания
-ld function(const ld x) {
+/*ld function(const ld x) {
     return 0.3 * cos(0.3 * x) + 0.7 * sin(0.3 * x);
-}
+}*/
 
 ld cosinusFunction(const ld x) {
     return cos(x);
@@ -47,11 +47,11 @@ ld derivativeSygmoidFunction(const ld y) {
 
 vector<ld> functionOfEnon(ull numberOfX) {
     vector<ld> x;
-    if (numberOfX==0)
+    if (numberOfX == 0)
         return x;
     else {
         x.push_back(X0);
-        if (numberOfX==1)
+        if (numberOfX == 1)
             return x;
         else {
             x.push_back(X1);

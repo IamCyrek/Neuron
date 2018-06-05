@@ -24,6 +24,7 @@ class Neuron {
     ld x;
 
 public:
+
 	//конструктор с заданием х
     Neuron() : x(randomCplusplus11()) {}
 
