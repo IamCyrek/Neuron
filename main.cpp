@@ -48,15 +48,56 @@ void showPredictedAndEtalon(vector<ld> vectPredicted, vector<ld> vectDefective, 
     }
 }
 
-/*vector<ld> getWholeVector (ld begin, ld end, ull sizeOfWholeArr, ld (*func) (const ld)) {
-    ld step = (end-begin)/((ld)sizeOfWholeArr-1);
-    vector<ld> x;
-    for (ull i=0; i<sizeOfWholeArr-1; i++) {
-        x.push_back(func(i*step+begin));
+vector<ld> creatingVectOfEtalonsWithCos(vector<ld> &vectEtalon) {
+    vector<ld> partOfCos = functionOfCos(SIZE_OF_ETALON_ARR);
+    vector<ld> vectEtalonWithCos = vectEtalon;
+
+    /*for (ull i = 2; i < 6; i++) {
+        vectEtalonWithCos[i] = partOfCos[i];
+    }*/
+    /*for (ull i = 6; i < 15; i++) {
+        vectEtalonWithCos[i] = partOfCos[i];
     }
-    x.push_back(func(end));
-    return x;
-}*/
+    for (ull i = 17; i < 25; i++) {
+        vectEtalonWithCos[i] = partOfCos[i];
+    }
+    for (ull i = 35; i < 40; i++) {
+        vectEtalonWithCos[i] = partOfCos[i];
+    }*/
+
+    cout << endl << "Cos";
+    for (const auto& i : partOfCos) {
+        cout << i << ' ';
+    } cout << endl;
+    for (const auto& i : vectEtalon) {
+        cout << i << ' ';
+    } cout << endl;
+    for (const auto& i : vectEtalonWithCos) {
+        cout << i << ' ';
+    } cout << endl << endl;
+
+    return vectEtalonWithCos;
+}
+
+void segmentation(const vector<ld> &vectEtalon, const vector<ld> &vectEtalonWithCos) {
+    bool checkOfStart = false;
+    ull whereStart = -1;
+    for (ull i = 0; i < vectEtalon.size(); i++) {
+        if (fabs(vectEtalon[i] - vectEtalonWithCos[i]) > 0.1) {
+            if (!checkOfStart) {
+                checkOfStart = true;
+                whereStart = i;
+            }
+        } else if (checkOfStart) {
+            checkOfStart = false;
+            cout << whereStart << ' ' << i << endl;
+            whereStart = -1;
+        }
+    }
+    if (checkOfStart) {
+        cout << whereStart << ' ' << vectEtalon.size() << endl;
+    }
+}
 
 //главная функция
 int main() {
@@ -98,6 +139,16 @@ int main() {
             cout << e << endl;
         }
     }
+
+
+
+
+    vector<ld> vectEtalonWithCos = creatingVectOfEtalonsWithCos(vectEtalon);
+    vector<ld> vectPredictedtest = networkPointer->predicting(vectStartLearn, vectEtalon.size());
+    segmentation(vectPredictedtest, vectEtalonWithCos);
+
+
+
 
     vector<ld> vectPredicted = networkPointer->predicting(vectStartLearn, vectEtalon.size());
 

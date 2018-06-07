@@ -20,10 +20,6 @@ const ld X1 = -0.5;
     return 0.3 * cos(0.3 * x) + 0.7 * sin(0.3 * x);
 }*/
 
-ld cosinusFunction(const ld x) {
-    return cos(x);
-}
-
 //линейная функция
 ld linearFunction(const ld sum) {
     return sum;
@@ -62,6 +58,15 @@ vector<ld> functionOfEnon(ull numberOfX) {
         }
     }
     return x;
+}
+
+vector<ld> functionOfCos(ull numberOfX) {
+    ld first = 0., step = 0.1;
+    vector<ld> ans;
+    for (ull i = 0; i < numberOfX; i++, first += step) {
+        ans.push_back(cos(first));
+    }
+    return ans;
 }
 
 //ld (*const DEFAULT_FUNCTION)(const ld)  = linearFunction;
