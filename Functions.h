@@ -14,12 +14,6 @@ const ld X0 = 0.2;
 const ld X1 = -0.5;
 
 
-
-//функция для предсказания
-/*ld function(const ld x) {
-    return 0.3 * cos(0.3 * x) + 0.7 * sin(0.3 * x);
-}*/
-
 //линейная функция
 ld linearFunction(const ld sum) {
     return sum;
@@ -68,8 +62,6 @@ vector<ld> functionOfCos(ull numberOfX) {
     }
     return ans;
 }
-
-//ld (*const DEFAULT_FUNCTION)(const ld)  = linearFunction;
 
 
 #endif //NEURONS_FUNCTIONS_H

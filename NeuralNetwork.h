@@ -95,27 +95,16 @@ public:
                         break;
                     }
                 }
-
-
-
-                //std::cout << connection.at(connection.size() - 1)->after->neurons.at(0)->x << "   "<<etalon.at(0)<<std::endl;
-                //if (levels.at(levels.size() - 1)->neurons.size() < etalon.size()) {
-                //std::cout << etalon.at(levels.at(levels.size() - 1)->neurons.size());
-                //std::cout << etalon.at(0);
-                //}
-                //std::cout << std::endl;
-
-                //show();
-                //cout << endl;
             }
+
             E /= 2.0;
             if (time % HOW_OFTEN_SHOW_ERROR == 0) {
                 if (time > 0) {
                     ull prognoseIterations = (ull)round((E-Em)/(pred-E));
-                    cout << time / HOW_OFTEN_SHOW_ERROR << ": " << E << endl
-                         << "Next is in: " << prognoseIterations << " iterations." << endl;
+                    /*cout << time / HOW_OFTEN_SHOW_ERROR << ": " << E << endl
+                         << "Next is in: " << prognoseIterations << " iterations." << endl;*/
                     if (time / HOW_OFTEN_SHOW_ERROR + prognoseIterations > ITERATIONS / HOW_OFTEN_SHOW_ERROR) {
-                        cout << "IN VAIN!" << endl;
+                        //cout << "IN VAIN!" << endl;
                         return false;
                     }
                 }

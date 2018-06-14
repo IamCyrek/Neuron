@@ -47,7 +47,7 @@ public:
             vector<ld> vec1;
 
             for (ull k = 0; k < after->neurons.size(); k++) {
-                vec1.push_back(randomCplusplus11());
+                vec1.push_back(randomCplusplus());
             }
 
             w.push_back(vec1);
@@ -56,7 +56,7 @@ public:
         gamma.resize(after->neurons.size());
 
         for (ull k = 0; k < after->neurons.size(); k++) {
-            T.push_back(randomCplusplus11());
+            T.push_back(randomCplusplus());
         }
     }
 

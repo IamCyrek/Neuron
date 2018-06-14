@@ -4,13 +4,8 @@
 #include <cstdlib> //for random
 
 //функция для получения рандомных чисел
-ld randomCplusplus11 (const double mi = -0.5, const double ma = 1.5) {
+ld randomCplusplus(const double mi = -0.5, const double ma = 1.5) {
     return ld(rand() * (ma - mi) / RAND_MAX + mi);
-    /*std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(mi, ma);
-
-    return dis(gen);*/
 }
 
 //класс "Нейрон"
@@ -26,7 +21,7 @@ class Neuron {
 public:
 
 	//конструктор с заданием х
-    Neuron() : x(randomCplusplus11()) {}
+    Neuron() : x(randomCplusplus()) {}
 
 };
 
