@@ -16,7 +16,7 @@ const ld ALPHA_STEP = 0.1; //0.1 <0.3
 const ld EXPECTED_ERROR = 0.001; //0.005
 
 const ull SIZE_OF_LEARNING_ARR = 100;
-const ull SIZE_OF_ETALON_ARR = 370;
+const ull SIZE_OF_ETALON_ARR = 420;
 const ull SIZE_OF_WHOLE_ARR = SIZE_OF_LEARNING_ARR + SIZE_OF_ETALON_ARR;
 
 const ld DEVIATION = 0.00000001;
@@ -67,11 +67,11 @@ vector<ld> creatingVectWithCos(const vector<ld> &vectLearn, const vector<ld> &ve
                        vectEtalon.begin(),
                        vectEtalon.end());
 
-    ull s1 = 107, s2 = s1 + SIZE_OF_LEARNING_ARR + 10;
+    ull s1 = 120, s2 = s1 + SIZE_OF_LEARNING_ARR + 25;
     for (ull i = s1; i < s2; i++) {
         vectWithCos[i] = partOfCos[i];
     }
-    ull s3 = s2 + SIZE_OF_LEARNING_ARR + 10, s4 = s3 + SIZE_OF_LEARNING_ARR + 10;
+    ull s3 = s2 + SIZE_OF_LEARNING_ARR + 20, s4 = s3 + SIZE_OF_LEARNING_ARR + 25;
     for (ull i = s3; i < s4; i++) {
         vectWithCos[i] = partOfCos[i];
     }
@@ -140,7 +140,22 @@ int main() {
 
         for (ull i = 0; i < vectPredictedtest.size(); i++, index++) {
             if (fabs(vectPredictedtest[i] - vectWithCos[index]) > 0.1) {
-                cout << i << ' ' << index++ << endl;
+                vector<ld> newVectPredictedtest;
+                do {
+                    if (index < vectWithCos.size()) {
+                        vector<ld> newVectStartLearn;
+                        for (ull j = index - LEVEL_1; j < index; j++) {
+                            newVectStartLearn.push_back(vectWithCos[j]);
+                        }
+                        newVectPredictedtest = networkPointer->predicting(newVectStartLearn, 1);
+                    } else {
+                        index++;
+                        break;
+                    }
+                } while(fabs(newVectPredictedtest[0] - vectWithCos[index++]) <= 0.1);
+
+
+                cout << index - 1 << endl;
                 break;
             }
         }
